@@ -1,0 +1,36 @@
+version: '3.7'
+
+volumes:
+  aurea_vol:
+
+networks:
+  aurea_net:
+    name: aurea_net
+
+services:
+  aurea_db:
+    container_name: aurea_db
+    image: postgres:14-alpine
+    restart: "no"
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=AtiDataBase
+      - POSTGRES_USER=root
+      - POSTGRES_SCHEMA=
+      - POSTGRES_PASSWORD=aureaStrong@123
+    networks:
+      - aurea_net
+    volumes:
+      - aurea_vol:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./Dados:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin1234

@@ -1,0 +1,54 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "@reports/*": ["src/reports/*"],
+      "@utils/*": [
+        "src/app/utils/*"
+      ],
+      "@logger/*": [
+        "src/logger/*"
+      ],
+      "@context/*": [
+        "src/app/context/*"
+      ],
+      "@exceptions/*": [
+        "src/app/exceptions/*"
+      ],
+      "@modules/*": [
+        "src/app/modules/*"
+      ],
+      "@middlewares/*": [
+        "src/app/middlewares/*"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ],
+      "@enums/*": [
+        "src/app/enums/*"
+      ],
+      "@typings/*": [
+        "./typings/*"
+      ]
+    },
+    "strict": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "jsx": "react-jsx"
+  }
+}
