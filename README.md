@@ -13,7 +13,6 @@ aplicação.
 
 1. NodeJs instalado
 2. Docker instalado
-3.
 
 ## Instalção
 
