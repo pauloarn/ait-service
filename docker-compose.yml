@@ -15,9 +15,8 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - POSTGRES_DB=AtiDataBase
+      - POSTGRES_DB=AitDataBase
       - POSTGRES_USER=root
-      - POSTGRES_SCHEMA=
       - POSTGRES_PASSWORD=aureaStrong@123
     networks:
       - aurea_net

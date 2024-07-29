@@ -4,9 +4,13 @@ import { LoggerModule } from '@logger/logger.module'
 import { APP_FILTER } from '@nestjs/core'
 import { systemConfig } from '@config/system.config'
 import helmet from 'helmet'
-import { AllExceptionsFilter } from './app/exception/all.exception'
-import { ContextModule } from '@context/context.module'
+import { AllExceptionsFilter } from '@exceptions/all.exception'
+import { ContextModule } from '@contexts/context.module'
 import { ConfigMiddleware } from '@middlewares/config.middleware'
+import { AitModule } from '@modules/ait/ait.module'
+import { AitHistoryModule } from '@modules/ait_history/ait_history.module'
+import { MessageClientModule } from './app/message/message_client.module'
+import { AitMessageModule } from './app/message/ait/ait_message.module'
 
 @Module({
   providers: [
@@ -20,8 +24,12 @@ import { ConfigMiddleware } from '@middlewares/config.middleware'
     ConfigModule.forRoot({
       load: [systemConfig]
     }),
+    MessageClientModule,
     ContextModule,
-    LoggerModule
+    LoggerModule,
+    AitModule,
+    AitHistoryModule,
+    AitMessageModule
   ]
 })
 export class AppModule {

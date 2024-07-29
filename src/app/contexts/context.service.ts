@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { SystemConfig } from '@config/system.config'
 import { AppContextType, contextKeys, ContextUtil } from '@utils/context.util'
-import { Undefined } from '../../typings/generic.typing'
+import { Undefined } from '@typings/generic.typing'
 
 @Injectable()
 export class ContextService {

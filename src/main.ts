@@ -4,13 +4,16 @@ import { WinstonLoggerService } from '@logger/winston-logger.service'
 import { ConfigService } from '@nestjs/config'
 import express from 'express'
 import { SystemConfig } from '@config/system.config'
-import { ValidationErrorException } from './app/exception/validation-error.exception'
+import { ValidationErrorException } from '@exceptions/validation-error.exception'
 import { ValidationPipe } from '@nestjs/common'
 import { ContextUtil } from '@utils/context.util'
+import { initializeTransactionalContext } from 'typeorm-transactional'
 
 async function bootstrap() {
+  initializeTransactionalContext()
   const logger = new WinstonLoggerService()
   const app = await NestFactory.create(AppModule, {
+    abortOnError: true,
     logger
   })
   const configService: ConfigService<SystemConfig, true> =

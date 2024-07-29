@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common'
 import { NextFunction, Request, Response } from 'express'
 import { LoggerAbstract } from '@logger/logger.abstract'
-import { ContextService } from '@context/context.service'
+import { ContextService } from '../contexts/context.service'
 import { differenceInMilliseconds } from 'date-fns'
 
 @Injectable()

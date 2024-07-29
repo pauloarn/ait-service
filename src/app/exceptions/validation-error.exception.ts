@@ -1,6 +1,6 @@
 import { AbstractException } from './abstract-exception'
 import { ValidationError } from '@nestjs/common'
-import { Null } from '../../typings/generic.typing'
+import { Null } from '@typings/generic.typing'
 
 export class ValidationErrorException extends AbstractException {
   public erros: ValidationError[]

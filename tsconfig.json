@@ -12,18 +12,23 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@reports/*": ["src/reports/*"],
       "@utils/*": [
         "src/app/utils/*"
       ],
       "@logger/*": [
         "src/logger/*"
       ],
-      "@context/*": [
-        "src/app/context/*"
+      "@contexts/*": [
+        "src/app/contexts/*"
+      ],
+      "@database/*": [
+        "src/database/*"
       ],
       "@exceptions/*": [
         "src/app/exceptions/*"
+      ],
+      "@entities/*": [
+        "src/app/entities/*"
       ],
       "@modules/*": [
         "src/app/modules/*"
@@ -34,17 +39,15 @@
       "@config/*": [
         "src/config/*"
       ],
-      "@enums/*": [
-        "src/app/enums/*"
-      ],
       "@typings/*": [
-        "./typings/*"
+        "src/typings/*"
       ]
     },
     "strict": true,
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
+    "strictPropertyInitialization": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,

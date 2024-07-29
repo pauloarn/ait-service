@@ -1,7 +1,7 @@
 import { v4 as uuidV4 } from 'uuid'
 import { createNamespace, Namespace } from 'cls-hooked'
 import { NextFunction } from 'express'
-import { Undefined } from '../../typings/generic.typing'
+import { Undefined } from '@typings/generic.typing'
 
 const context = ['api', 'scheduler'] as const
 

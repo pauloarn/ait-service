@@ -1,19 +1,19 @@
 import { Response as Res } from 'express'
-import { messagesUtil, messagesUtilKeys } from './messages.util'
+import { messagesUtil, MessagesUtilKeys } from './messages.util'
 import { HttpStatus } from '@nestjs/common'
-import { Undefined } from '../../typings/generic.typing'
+import { Undefined } from '@typings/generic.typing'
 
 export class ResponseApi<T> {
   private status = HttpStatus.OK
   private response: Res
-  private code: messagesUtilKeys = 'requestDone'
+  private code: MessagesUtilKeys = 'REQUEST_DONE'
   private data: Undefined<T> = undefined
 
   constructor(res: Res) {
     this.response = res
   }
 
-  setOk(code: messagesUtilKeys = 'requestDone') {
+  setOk(code: MessagesUtilKeys = 'REQUEST_DONE') {
     this.status = HttpStatus.OK
     this.code = code
     return this
@@ -24,7 +24,7 @@ export class ResponseApi<T> {
     return this
   }
 
-  setCode(code: messagesUtilKeys) {
+  setCode(code: MessagesUtilKeys) {
     this.code = code
     return this
   }

@@ -9,7 +9,7 @@ import { Response } from 'express'
 import { BaseExceptionFilter } from '@nestjs/core'
 import { messagesUtil } from '@utils/messages.util'
 import { LoggerAbstract } from '@logger/logger.abstract'
-import { Null } from '../../typings/generic.typing'
+import { Null } from '@typings/generic.typing'
 import { ApiErrorException } from './api-error.exception'
 import { ValidationErrorException } from './validation-error.exception'
 import { PayloadTooLargeError } from './payload-large-error.exception'
@@ -53,7 +53,7 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
 
     return this.buildResponse()
       .setStatus(status)
-      .setCode('unknownError')
+      .setCode('UNKNOWN_ERROR')
       .setBody({ path: request.url })
       .send()
   }
@@ -75,7 +75,7 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
     const response = this.buildResponse()
     return response
       .setStatus(HttpStatus.NOT_FOUND)
-      .setCode('routeNotFound')
+      .setCode('ROUTE_NOT_FOUND')
       .setBody(exception.message)
       .send()
   }
@@ -94,7 +94,7 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
 
     return response
       .setStatus(HttpStatus.BAD_REQUEST)
-      .setCode('validationError')
+      .setCode('VALIDATION_ERRO')
       .setBody(body)
       .send()
   }
@@ -103,7 +103,7 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
     const response = this.buildResponse()
     return response
       .setStatus(HttpStatus.PAYLOAD_TOO_LARGE)
-      .setCode('payloadTooLarge')
+      .setCode('PAYLOAD_TOO_LARGE')
       .setBody(exception.message)
       .send()
   }

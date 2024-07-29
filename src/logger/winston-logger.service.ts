@@ -4,7 +4,7 @@ import { AppContextType, contextKeys, ContextUtil } from '@utils/context.util'
 import { format } from 'date-fns'
 import { LoggerAbstract } from './logger.abstract'
 import { systemConfig } from '@config/system.config'
-import { Null, NullOrUndefined, Undefined } from '../typings/generic.typing'
+import { Null, NullOrUndefined, Undefined } from '@typings/generic.typing'
 
 const { combine, timestamp, printf, colorize } = winston.format
 
