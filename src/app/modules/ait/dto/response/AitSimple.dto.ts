@@ -7,6 +7,7 @@ export class AitSimpleDTO {
   private nomeCondutor: string
   private nomeAgente: string
   private data: string
+  private status: string
 
   fromAit(ait: Ait): this {
     this.id = ait.id
@@ -14,6 +15,7 @@ export class AitSimpleDTO {
     this.nome = ait.atiName
     this.nomeAgente = ait.agentName
     this.nomeCondutor = ait.conductorName
+    this.status = ait.status
     return this
   }
 }

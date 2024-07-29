@@ -16,6 +16,7 @@ import { Ait } from '@entities/ati/ait.entity'
 import { AitSimpleDTO } from '@modules/ait/dto/response/AitSimple.dto'
 import { AitStatusChangeDTO } from '@modules/ait/dto/request/AitStatusChange.dto'
 import { Pagination } from 'nestjs-typeorm-paginate'
+import { AitStatus } from '@typings/ati_status.typing'
 
 @Controller('ait')
 export class AitController {
@@ -23,11 +24,12 @@ export class AitController {
 
   @Get()
   async getAllAits(
+    @Query('ait_status', new DefaultValuePipe(null)) ait_status: AitStatus,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10
   ): Promise<Response<Pagination<Ait>>> {
     const response: Response<Pagination<Ait>> = new Response()
-    response.setData(await this.aitService.findAll({ limit, page }))
+    response.setData(await this.aitService.findAll({ limit, page }, ait_status))
     response.setOk()
     return response
   }

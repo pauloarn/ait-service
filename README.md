@@ -1,73 +1,101 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## Descrição
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Aplicação voltada para o controle de AITs, fazendo seu cadastro, controle de status e comunicação da mesma com serviço
+de mensageria.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Foi desenvolvida em NestJs com TypeORM, vizando se comunicar com um banco de dados PostgresSQL e o serviço de mensageria
+RabbitMQ.
 
-## Description
+O projeto contém um arquivo docker-compose.yml com as configurações dos containers que serão necessários para utilizar a
+aplicação.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Requerimentos para utilizar o projeto
 
-## Installation
+1. NodeJs instalado
+2. Docker instalado
+3.
+
+## Instalção
+
+1. Inicialmente precisamos criar e rodar os containers do docker.
+
+```bash
+ $ docker compose up
+```
+
+2. Após criar e subir os container é necessário instalar as dependencias do projeto
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+## Rodando a aplicação
 
-```bash
-# development
+1. Após instaladas o projeto pode ser iniciado, ele se encarregará de criar as tabelas e a fila de mensagens.
+
+```
 $ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
-## Test
+A aplicação irá iniciar na porta 3031, então para acessala é necessário fazer as requisições
+para `http://localhost:3031`
 
-```bash
-# unit tests
-$ npm run test
+2. A aplicação se constitui de 4 rotas
+    - Rota para listagem de AITs (`GET '/ait'`):
+      Rota utilizada para listar todas as AITs de forma paginada. Recebe query params para controlar a paginação e
+      filtrar as AITs por
+      status:
+        - Parametros: page (define qual página a carregar), limit(define a quantidade de itens por página), status (
+          filtra as AITs pelo status especificado, status: 'EM_ANDAMENTO', 'SOLICITADO_CANCELAMENTO', 'CANCELADO')
 
-# e2e tests
-$ npm run test:e2e
+    - Rota para criar AIT (`POST '/ait'`):
+      Rota utilizada para criar uma nova AIT, recebe como body um objeto com as informações da AIT:
+      ```json
+      {
+        "nome":"Nome da AIT",
+        "nomeAgente": "Nome do Agente",
+        "nomeCondutor": "Nome do Contudor",
+        "data": "2024-07-25"
+      }
+      ```
+      Obs: Data informada deve estar no formato ``aaaa-mm-dd``
 
-# test coverage
-$ npm run test:cov
-```
+    - Retorna um body com as informações da AIT criada
+      ```json
+      {
+        "statusCode": 200,
+        "body": {
+          "id": "f6ad9eec-5da8-486b-8359-2e82736b48ed",
+          "nome":"Nome da AIT",
+          "nomeAgente": "Nome do Agente",
+          "nomeCondutor": "Nome do Contudor",
+          "data": "2024-07-25"
+          "status": "EM_ANDAMENTO"
+        },
+        "messageCode": "REQUEST_DONE",
+        "message": "Requisição concluída."
+      }
 
-## Support
+    - Rota para solicitar cancelamento da AIT (`PUT '/ait/request-cancel/:ait_id'`):
+      Rota para movimentar a AIT para 'SOLICITADO_CANCELAMENTO', necessário informar o ID da ATI sendo alterada url da
+      requisição e informar o motivo da alteração no body da requisição
+      ex:
+      ``rota: /ait/request-cancel/f6ad9eec-5da8-486b-8359-2e82736b48ed``
+      ```json
+      "body":{
+          "motivo" : "Motivo para solicitar cancelamento da AIT"
+      }
+      ```
+      Retorna o mesmo objeto da criação da AIT porém agora com a AIT atualizada para o novo status
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+    - Rota para confirmar cancelamento da AIT (`PUT '/ait/confirm-ait-cancel/:ait_id'`):
+      Rota para movimentar a AIT para 'CANCELADO', necessário informar o ID da AIT sendo alterada pela url da requisição
+      e informar o motivo do cancelamento no body da requisição, ex:
+      ex:
+      ``rota: /ait/request-cancel/f6ad9eec-5da8-486b-8359-2e82736b48ed``
+      ```json
+      "body":{
+          "motivo" : "Motivo para cancelar AIT"
+      }
+      ```  
+            

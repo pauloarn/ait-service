@@ -15,7 +15,6 @@ import {
   Pagination
 } from 'nestjs-typeorm-paginate'
 import { Transactional } from 'typeorm-transactional'
-import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder'
 
 @Injectable()
 export class AitService {
@@ -26,11 +25,14 @@ export class AitService {
     private aitMessageService: AitMessageService
   ) {}
 
-  async findAll(paginateData: IPaginationOptions): Promise<Pagination<Ait>> {
-    console.log(this.aitRepository)
-    const queryBuilder: SelectQueryBuilder<Ait> =
-      this.aitRepository.createQueryBuilder('a')
-    console.log(queryBuilder)
+  async findAll(
+    paginateData: IPaginationOptions,
+    ait_status: AitStatus
+  ): Promise<Pagination<Ait>> {
+    const queryBuilder = this.aitRepository.createQueryBuilder('a')
+    if (ait_status) {
+      queryBuilder.where('a.status = :ait_status', { ait_status })
+    }
     queryBuilder.orderBy('a.date', 'ASC') // Or whatever you need to do
 
     return paginate<Ait>(queryBuilder, paginateData)
