@@ -12,3 +12,9 @@ export const reasonRequestCancelAit = {
 export const reasonConfirmCancelAit = {
   motivo: 'Motivo válido para cancelar de AIT'
 }
+export const createAitWrongBody = {
+  nome: 'Nome da AIT',
+  nomeAgente: 'Nome do Agente',
+  nomeCondutor: 'Nome do Contudor',
+  data: '2024-07'
+}

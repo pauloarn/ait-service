@@ -4,6 +4,7 @@ import request from 'supertest'
 import TestAgent from 'supertest/lib/agent'
 import {
   createAitBodyRequest,
+  createAitWrongBody,
   reasonConfirmCancelAit,
   reasonRequestCancelAit
 } from './expectObjects'
@@ -13,6 +14,7 @@ import { Repository } from 'typeorm'
 import { initializeTransactionalContext } from 'typeorm-transactional'
 import { instanciateNewInMemoryDb } from '../../utils/db-test.utils'
 import { AitStatus } from '@typings/ati_status.typing'
+import { messagesUtil } from '@utils/messages.util'
 
 jest.mock('typeorm-transactional', () => ({
   Transactional: () => () => ({}),
@@ -83,6 +85,14 @@ describe('AitController', () => {
       const res = await api.get('/ait').expect(200).expect(200)
       const canceledAit = { ...firstAitCreatd, status: AitStatus.CANCELADO }
       expect(res.body.body.items[0]).toStrictEqual(canceledAit)
+    })
+
+    it('should not create new AIT', async () => {
+      const res = await api
+        .post('/ait/create')
+        .send(createAitWrongBody)
+        .expect(400)
+      expect(res.body.msg).toBe(messagesUtil.VALIDATION_ERRO)
     })
   })
 })
