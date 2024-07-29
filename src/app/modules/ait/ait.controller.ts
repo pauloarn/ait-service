@@ -3,6 +3,7 @@ import {
   Controller,
   DefaultValuePipe,
   Get,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Post,
@@ -12,11 +13,11 @@ import {
 import { AitService } from '@modules/ait/ait.service'
 import { Response } from '@typings/response.typing'
 import { NewAitInterface } from '@modules/ait/dto/request/NewAit.dto'
-import { Ait } from '@entities/ati/ait.entity'
 import { AitSimpleDTO } from '@modules/ait/dto/response/AitSimple.dto'
 import { AitStatusChangeDTO } from '@modules/ait/dto/request/AitStatusChange.dto'
 import { Pagination } from 'nestjs-typeorm-paginate'
 import { AitStatus } from '@typings/ati_status.typing'
+import { Null } from '@typings/generic.typing'
 
 @Controller('ait')
 export class AitController {
@@ -24,13 +25,14 @@ export class AitController {
 
   @Get()
   async getAllAits(
-    @Query('ait_status', new DefaultValuePipe(null)) ait_status: AitStatus,
+    @Query('ait_status') ait_status: Null<AitStatus> = null,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10
-  ): Promise<Response<Pagination<Ait>>> {
-    const response: Response<Pagination<Ait>> = new Response()
+  ): Promise<Response<Pagination<AitSimpleDTO>>> {
+    const response: Response<Pagination<AitSimpleDTO>> = new Response()
     response.setData(await this.aitService.findAll({ limit, page }, ait_status))
     response.setOk()
+    response.setStatusCode(HttpStatus.CREATED, 'REQUEST_DONE')
     return response
   }
 

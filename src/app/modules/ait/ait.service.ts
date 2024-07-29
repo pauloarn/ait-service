@@ -15,6 +15,7 @@ import {
   Pagination
 } from 'nestjs-typeorm-paginate'
 import { Transactional } from 'typeorm-transactional'
+import { Null } from '@typings/generic.typing'
 
 @Injectable()
 export class AitService {
@@ -27,15 +28,18 @@ export class AitService {
 
   async findAll(
     paginateData: IPaginationOptions,
-    ait_status: AitStatus
-  ): Promise<Pagination<Ait>> {
+    ait_status: Null<AitStatus>
+  ): Promise<Pagination<AitSimpleDTO>> {
     const queryBuilder = this.aitRepository.createQueryBuilder('a')
     if (ait_status) {
       queryBuilder.where('a.status = :ait_status', { ait_status })
     }
     queryBuilder.orderBy('a.date', 'ASC') // Or whatever you need to do
-
-    return paginate<Ait>(queryBuilder, paginateData)
+    const paginated = await paginate<Ait>(queryBuilder, paginateData)
+    return {
+      ...paginated,
+      items: paginated.items.map((i) => new AitSimpleDTO().fromAit(i))
+    }
   }
 
   @Transactional()

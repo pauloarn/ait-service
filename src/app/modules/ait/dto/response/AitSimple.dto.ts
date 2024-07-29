@@ -3,7 +3,7 @@ import { getDateStringFromDateObject } from '@utils/date.utils'
 
 export class AitSimpleDTO {
   private id: string
-  private nome: string
+  private nomeAti: string
   private nomeCondutor: string
   private nomeAgente: string
   private data: string
@@ -12,7 +12,7 @@ export class AitSimpleDTO {
   fromAit(ait: Ait): this {
     this.id = ait.id
     this.data = getDateStringFromDateObject(ait.date)
-    this.nome = ait.atiName
+    this.nomeAti = ait.atiName
     this.nomeAgente = ait.agentName
     this.nomeCondutor = ait.conductorName
     this.status = ait.status

@@ -34,6 +34,7 @@
     "helmet": "^7.1.0",
     "nestjs-typeorm-paginate": "^4.0.4",
     "pg": "^8.12.0",
+    "pg-mem": "^2.8.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.20",
@@ -74,15 +75,19 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": "./",
     "testRegex": ".*\\.spec\\.ts$",
     "moduleNameMapper": {
-      "^@modules(.*)$": "<rootDir>/app/modules$1",
-      "^@utils(.*)$": "<rootDir>/app/utils$1",
-      "^@entities(.*)$": "<rootDir>/app/entities$1",
-      "^@typings(.*)$": "<rootDir>/typings$1",
-      "^@exceptions(.*)$": "<rootDir>/app/exceptions$1",
-      "^@database(.*)$": "<rootDir>/database$1"
+      "^@modules(.*)$": "<rootDir>src/app/modules$1",
+      "^@utils(.*)$": "<rootDir>src/app/utils$1",
+      "^@entities(.*)$": "<rootDir>src/app/entities$1",
+      "^@typings(.*)$": "<rootDir>src/typings$1",
+      "^@exceptions(.*)$": "<rootDir>src/app/exceptions$1",
+      "^@database(.*)$": "<rootDir>src/database$1",
+      "^@logger(.*)$": "<rootDir>src/logger$1",
+      "^@config(.*)$": "<rootDir>src/config$1",
+      "^@contexts(.*)$": "<rootDir>src/app/contexts$1",
+      "^@middlewares(.*)$": "<rootDir>src/app/middlewares$1"
     },
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"

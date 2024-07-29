@@ -10,7 +10,7 @@ export class Ait {
   @Column({ type: 'varchar', nullable: false })
   atiName: string
 
-  @Column({ type: 'date', nullable: false })
+  @Column({ type: 'timestamp', nullable: false })
   date: Date
 
   @Column({ type: 'varchar', nullable: false })
